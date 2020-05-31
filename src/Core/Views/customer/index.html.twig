@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des clients{% endblock %}
+
+{% block titleLook %}Client{% endblock %}
+
+{% block body %}
+<div class="thirteen wide column">
+    <div class="ui card max-width">
+        <div class="content">
+            <div class="header">
+                Liste des clients
+                <a href="{{ path('customer_create') }}" class="ui button ui right aligned bg-red-white-c add-element">Ajouter</a>
+            </div>
+        </div>
+        <div class="content">
+                <table id="table-customer" class="ui celled table" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Rue</th>
+                            <th>Code postal</th>
+                            <th>Ville</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            getDatatable('#table-customer', '{{ path('datatable_customer') }}',[
+                {data: 'name'},
+                {data: 'street'},
+                {data: 'zipCode'},
+                {data: 'city'}
+            ]);
+        });
+    </script>
+{% endblock %}

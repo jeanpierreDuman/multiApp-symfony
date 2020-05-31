@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block titleLook %}Utilisateur{% endblock %}
+
+{% block body %}
+<div class="thirteen wide column">
+    <div class="ui card max-width">
+        <div class="content">
+            <div class="header">
+                Liste des utilisateurs
+                <a href="{{ path('app_register') }}" class="ui button ui right aligned bg-red-white-c add-element">Ajouter</a>
+            </div>
+        </div>
+        <div class="content">
+            <table id="example" class="ui celled table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Société</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.society.name }}</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                <a class="ui button ui right teal aligned" href="{{ path('user_show', {'id': user.id}) }}"><i class="eye icon"></i>Voir</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

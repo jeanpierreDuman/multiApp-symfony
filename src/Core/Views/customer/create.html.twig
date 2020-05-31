@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les clients{% endblock %}
+
+{% block body %}
+<div class="thirteen wide column">
+    <div class="ui card max-width">
+        <div class="content">
+            <div class="header">
+                    Création d'un client
+                <a href="{{ path('user') }}" class="ui button ui right aligned teal add-element">Retour</a>
+            </div>
+        </div>
+        <div class="content">
+            <form id="customer" action="{{ path('customer_create') }}" method="post" class="ui large form">
+                <div class="ui">
+                    <div class="field">
+                        <label>Nom</label>
+                        <div class="ui left icon input">
+                            {{ form_widget(form.name, {'attr': {'placeholder': 'Nom'}}) }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Rue</label>
+                        <div class="ui left icon input">
+                            {{ form_widget(form.street, {'attr': {'placeholder': 'Rue'}}) }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Code postal</label>
+                        <div class="ui left icon input">
+                            {{ form_widget(form.zipCode, {'attr': {'placeholder': 'Code postal'}}) }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Ville</label>
+                        <div class="ui left icon input">
+                            {{ form_widget(form.city, {'attr': {'placeholder': 'Ville'}}) }}
+                        </div>
+                    </div>
+                    <div class="ui primary blue submit button">Enregistrer</div>
+                    <div class="ui error message"></div>
+                    {{ form_rest(form) }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('public/js/formValidation/customer.js') }}"></script>
+{% endblock %}

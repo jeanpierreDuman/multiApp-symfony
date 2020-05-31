@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des menus{% endblock %}
+
+{% block titleLook %}Menu{% endblock %}
+
+{% block body %}
+<div class="thirteen wide column">
+    <div class="ui card max-width">
+        <div class="content">
+            <div class="header">
+                Liste des menus
+                <a href="{{ path('menu_add') }}" class="ui button ui right aligned bg-red-white-c add-element">Ajouter</a>
+            </div>
+        </div>
+        <div class="content">
+            <table id="example" class="ui celled table" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Structure</th>
+                        <th>Nom</th>
+                        <th>Route</th>
+                        <th>Utilisation</th>
+                        <th>Accès</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var table = getDatatable('#example', '{{ path('ajax_menu_datatable') }}', [
+                {data: 'id'},
+                {data: 'structure'},
+                {data: 'name'},
+                {data: 'route'},
+                {data: 'utilisation', orderable: false},
+                {data: 'enable'},
+                {
+                    data: function(data) {
+                        return "<a class='ui button ui right teal aligned' href='" + data.link_detail + "'> modifier</a>";
+                    }, orderable: false
+                }
+            ]);
+        });
+    </script>
+{% endblock %}

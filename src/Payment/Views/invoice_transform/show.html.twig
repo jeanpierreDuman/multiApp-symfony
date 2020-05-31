@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+        <meta charset="utf-8">
+        <title>Facture n° {{ invoice.num }}</title>
+    </head>
+    <body>
+        <img class="ui small image" src="{{ baseImg }}">
+        <div class="content">
+            <table class="full">
+                <tbody>
+                    <tr class="bold">
+                        <td>Envoyé par :</td>
+                        <td>Reçu par :</td>
+                    </tr>
+                    <tr>
+                        <td>{{ invoice.user.society.name }}</td>
+                        <td>{{ invoice.customer.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ invoice.user.name }}</td>
+                        <td>{{ invoice.customer.street }} {{ invoice.customer.zipCode }} {{ invoice.customer.city }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ invoice.user.adress }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ invoice.user.email }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>{{ invoice.user.phone }}</td>
+                        <td class="underline bold fs">Facture n° {{ invoice.num }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="bold">Le {{ invoice.date|date('d/m/Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="bold">Total : {{ invoice.amountTtc }} €</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="ui celled table" style="margin-top: 20px;">
+                <tbody>
+                    <tr class="active bold">
+                        <td style="width: 50px;">Quantité</td>
+                        <td style="width: 370px;">Description</td>
+                        <td>Prix unitaire</td>
+                        <td>Montant HT</td>
+                    </tr>
+                    {% for row in invoice.rows %}
+                        <tr>
+                            <td style="text-align:center;">{{ row.quantity }}</td>
+                            <td>{{ row.description }}</td>
+                            <td>{{ row.unitPrice }} €</td>
+                            <td>{{ row.amountPrice }} €</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td class="active">Total HT</td>
+                        <td class="active">
+                            {{ invoice.amountHt }} €
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td class="active">TVA : {{ invoice.tva }} %</td>
+                        <td class="active">
+                            {{ invoice.subTva }} €
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td class="active">Total TTC</td>
+                        <td class="active">
+                            {{ invoice.amountTtc }} €
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            {% if invoice.note is not null %}
+                <div class="">
+                    Commentaire : {{ invoice.note }}
+                </div>
+            {% endif %}
+        </div>
+    </body>
+</html>
+
+<style media="screen">
+    .bold {
+        font-weight: bold;
+    }
+
+    .fs {
+        font-size: 20px;
+    }
+
+    .underline {
+        text-decoration: underline;
+    }
+
+    .full {
+        width: 100%;
+    }
+</style>

@@ -1,0 +1,39 @@
+{% block _invoice_rows_entry_widget%}
+<tr>
+    <td>
+        <div class="field">
+            <div class="ui left icon input">
+                <i class="balance scale icon"></i>
+                {{ form_widget(form.quantity, {'attr': {'placeholder': 'Quantité'}}) }}
+            </div>
+        </div>
+    </td>
+    <td>
+        <div class="field">
+            <div class="ui left icon input">
+                <i class="font icon"></i>
+                {{ form_widget(form.description, {'attr': {'placeholder': 'Description'}}) }}
+            </div>
+        </div>
+    </td>
+    <td>
+        <div class="field">
+            <div class="ui left icon input">
+                <i class="euro sign icon"></i>
+                {{ form_widget(form.unitPrice, {'attr': {'placeholder': 'Prix unitaire'}}) }}
+            </div>
+        </div>
+    </td>
+    <td>
+        <div class="field">
+            <div class="ui left icon input">
+                <i class="euro sign icon"></i>
+                {{ form_widget(form.amountPrice) }}
+            </div>
+        </div>
+    </td>
+    <td>
+        <a class="ui button ui right aligned red removeRow">supprimer cette ligne</a>
+    </td>
+</tr>
+{% endblock %}

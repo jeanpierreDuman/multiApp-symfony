@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création utilisateur{% endblock %}
+
+{% block body %}
+
+<div class="thirteen wide column">
+    <div class="ui card max-width">
+        <div class="content">
+            <div class="header">
+                    Création utilisateur
+                <a href="{{ path('user') }}" class="ui button ui right aligned teal add-element">Retour</a>
+            </div>
+        </div>
+        <div class="content">
+            <form id="register" action="{{ path('app_register') }}" method="post" class="ui large form">
+                <div class="ui">
+                    <div class="field">
+                        <label>Nom complet</label>
+                        <div class="ui left icon input">
+                            <i class="align left icon"></i>
+                            {{ form_widget(form.name, {'attr': {'placeholder': 'Nom complet'}}) }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Société</label>
+                        <div class="ui left icon input">
+                            {{ form_widget(form.society, {'attr': {'placeholder': 'Société', 'class': 'ui fluid dropdown'}}) }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Email</label>
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            {{ form_widget(form.email, {'attr': {'placeholder': 'Email'}}) }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Adresse</label>
+                        <div class="ui left icon input">
+                            <i class="address card outline icon"></i>
+                            {{ form_widget(form.adress, {'attr': {'placeholder': 'Adresse'}}) }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Téléphone</label>
+                        <div class="ui left icon input">
+                            <i class="phone icon"></i>
+                            {{ form_widget(form.phone, {'attr': {'placeholder': 'Téléphone'}}) }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Mot de passe</label>
+                        <div class="ui left icon input">
+                            <i class="hide icon"></i>
+                            {{ form_widget(form.plainPassword, {'attr': {'placeholder': 'Mot de passe'}}) }}
+                        </div>
+                    </div>
+                    <div class="ui primary blue submit button">Enregistrer</div>
+                    <div class="ui error message"></div>
+                    {{ form_rest(form) }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('public/js/formValidation/register.js') }}"></script>
+{% endblock %}

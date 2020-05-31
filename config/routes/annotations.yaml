@@ -1,0 +1,15 @@
+admin_controllers:
+    resource: ../../src/Admin/Controller/
+    type: annotation
+
+core_controllers:
+    resource: ../../src/Core/Controller/
+    type: annotation
+
+payment_controllers:
+    resource: ../../src/Payment/Controller/
+    type: annotation
+
+kernel:
+    resource: ../../src/Kernel.php
+    type: annotation

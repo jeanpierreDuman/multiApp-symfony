@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des sociétés{% endblock %}
+
+{% block titleLook %}Société{% endblock %}
+
+{% block body %}
+<div class="thirteen wide column">
+    <div class="ui card max-width">
+        <div class="content">
+            <div class="header">
+                Liste des sociétés
+                <a href="{{ path('society_add') }}" class="ui button ui right aligned bg-red-white-c add-element">Ajouter</a>
+            </div>
+        </div>
+        <div class="content">
+            <table id="example" class="ui celled table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Accès</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for society in societies %}
+                        <tr>
+                            <td>{{ society.id }}</td>
+                            <td>{{ society.name }}</td>
+                            <td>
+                                {% if society.enable %}
+                                    Oui
+                                {% else %}
+                                    Non
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a class="ui button ui right teal aligned" href="{{ path('society_update', {'id': society.id}) }}"><i class="eye icon"></i>Voir</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

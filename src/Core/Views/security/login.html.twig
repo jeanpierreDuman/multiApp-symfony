@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Identification du compte</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ asset('public/semantic/semantic.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('public/css/index.css') }}">
+
+    </head>
+    <body>
+        <div class="ui middle aligned center aligned grid grid-position">
+            <div class="column column-id">
+                <h2 class="ui header">
+                    Identification du compte
+                </h2>
+
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                <form method="post" class="ui large form">
+                    <div class="ui stacked segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input type="email" name="email" id="inputEmail" placeholder="E-mail" value="{{ last_username }}">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" name="password" placeholder="Mot de passe" id="inputPassword" required>
+                            </div>
+                        </div>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                        <input type="submit" value="Confirmer" class="ui fluid bg-red-white-c submit button">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,221 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if invoice.id is not null %}
+        Modifier un devis
+    {% else %}
+        Ajouter un devis
+    {% endif %}
+{% endblock %}
+
+{% block titleLook %}Devis{% endblock %}
+
+{% block body %}
+
+<div class="thirteen wide column">
+    <div class="ui card max-width">
+        <div class="content">
+            <div class="header">
+                {% if invoice.id is not null %}
+                    Modifier un devis
+                {% else %}
+                    Ajouter un devis
+                {% endif %}
+                <a href="{{ path('invoice_create') }}" class="ui button right aligned bg-red-white-c add-element">Retour</a>
+            </div>
+        </div>
+        <div class="content ui">
+
+        {% if invoice.id is not null %}
+            <form class="ui form" id="invoice" action="{{ path('invoice_update', {'id': invoice.id}) }}" method="post">
+        {% else %}
+            <form class="ui form" id="invoice" action="{{ path('invoice_create') }}" method="post">
+        {% endif %}
+
+        <div class="ui placeholder segment">
+          <div class="ui two column stackable  aligned grid">
+            <div class="ui vertical divider">&</div>
+            <div class="middle aligned row">
+              <div class="column">
+                <table class="margin-auto">
+                    <tr>
+                        <td>Nom</td>
+                        <td class="pl-10">{{ app.user.society.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Contact</td>
+                        <td class="pl-10">{{ app.user.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Adresse</td>
+                        <td class="pl-10">{{ app.user.adress }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td class="pl-10">{{ app.user.email }}</td>
+                    </tr>
+                    <tr>
+                        <td>Téléphone</td>
+                        <td class="pl-10">{{ app.user.phone }}</td>
+                    </tr>
+                </table>
+
+              </div>
+              <div class="column margin-auto">
+                  <div style="text-align:center;">
+                      <div id="customer-content" style="margin-top: 15px;">
+                          <div class="ui left icon input" style="width: 300px;">
+                              {{ form_widget(form.customer, {'attr': {'placeholder': 'Société', 'class': 'ui fluid dropdown'}}) }}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+            <table id="table-invoice" class="ui celled table">
+                <thead>
+                    <tr>
+                        <th colspan="4"></th>
+                        <th>
+                            <button class="ui button ui right aligned teal addRow" type="button">Ajouter une ligne</button>
+                        </th>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr>
+                        <th>Quantité</th>
+                        <th>Description</th>
+                        <th>Prix unitaire</th>
+                        <th>Montant HT</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <div class="rows" data-prototype="{{ form_widget(form.rows.vars.prototype)|e('html_attr') }}">
+                        {% for row in form.rows %}
+                            <tr>
+                                <td>
+                                    <div class="field">
+                                        <div class="ui left icon input">
+                                            <i class="balance scale icon"></i>
+                                            {{ form_widget(row.quantity, {'attr': {'placeholder': 'Quantité'}}) }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="field">
+                                        <div class="ui left icon input">
+                                            <i class="font icon"></i>
+                                            {{ form_widget(row.description, {'attr': {'placeholder': 'Description'}}) }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="field">
+                                        <div class="ui left icon input">
+                                            <i class="euro sign icon"></i>
+                                            {{ form_widget(row.unitPrice, {'attr': {'placeholder': 'Prix unitaire'}}) }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="field">
+                                        <div class="ui left icon input">
+                                            <i class="euro sign icon"></i>
+                                            {{ form_widget(row.amountPrice) }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a class="ui button red removeRow">supprimer cette ligne</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </div>
+                </tbody>
+                <thead>
+                    <tr style="background: #f4f4f4;">
+                        <th colspan="2"></th>
+                        <th style="vertical-align: middle">Total HT</th>
+                        <th>
+                            <div class="field">
+                                <div class="ui left icon input">
+                                    <i class="euro sign icon"></i>
+                                    {{ form_widget(form.amountHt, {'attr': {'id': 'totalAmount'}}) }}
+                                </div>
+                            </div>
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr style="background: #f4f4f4;">
+                        <th colspan="2"></th>
+                        <th style="vertical-align: middle">
+                            {{ form_widget(form.tva, {'attr': {'class': 'ui fluid dropdown'}}) }}
+                        </th>
+                        <th>
+                            <div class="field">
+                                <div class="ui left icon input">
+                                    <i class="euro sign icon"></i>
+                                    {{ form_widget(form.subTva, {'attr': {'id': 'totalAmountTTC'}}) }}
+                                </div>
+                            </div>
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2"></th>
+                        <th style="vertical-align: middle">
+                            Total
+                        </th>
+                        <th>
+                            <div class="field">
+                                <div class="ui left icon input">
+                                    <i class="euro sign icon"></i>
+                                    {{ form_widget(form.amountTtc, {'attr': {'id': 'total'}}) }}
+                                </div>
+                            </div>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div style="margin-top: 15px;">
+            <div class="ui form">
+            <div class="field">
+              <label>Date</label>
+                {{ form_widget(form.date) }}
+            </div>
+                <div class="field">
+                  <label>Commentaire</label>
+                    {{ form_widget(form.note) }}
+                </div>
+                <div class="field">
+                    <div class="ui toggle checkbox">
+                        {{ form_widget(form.isTransform) }}
+                      <label>Transformer en facture</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui content">
+                <div class="ui primary blue submit button" style="margin: 0 auto;display: block;margin-top: 20px;">Enregistrer</div>
+            <div class="ui error message"></div>
+            {{ form_errors(form) }}
+            {{ form_rest(form) }}
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('public/js/formCollectionInvoiceRow.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/formValidation/invoice.js') }}"></script>
+{% endblock %}

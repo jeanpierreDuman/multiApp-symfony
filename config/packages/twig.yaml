@@ -1,0 +1,8 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    paths:
+        '%kernel.project_dir%/src/Admin/Views': Admin
+        '%kernel.project_dir%/src/Core/Views': Core
+        '%kernel.project_dir%/src/Payment/Views': Payment
+    form_theme:
+        - '@Payment/form/collections.html.twig'

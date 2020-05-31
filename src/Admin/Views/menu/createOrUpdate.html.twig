@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des menus{% endblock %}
+
+{% block titleLook %}Menu{% endblock %}
+
+{% block body %}
+    <div class="thirteen wide column">
+        <div class="ui card max-width">
+            <div class="content">
+                <div class="header">
+                    {% if menu.id is null %}
+                        Ajouter un menu
+                    {% else %}
+                        Modifier un menu
+                    {% endif %}
+                    <a href="{{ path('menu') }}" class="ui button ui right aligned teal add-element">Retour</a>
+                </div>
+            </div>
+            <div class="content">
+                {% if menu.id is null %}
+                    <form id="menu_form" action="{{ path('menu_add') }}" method="post" class="ui large form">
+                {% else %}
+                    <form id="menu_form" action="{{ path('menu_update', {'id': menu.id}) }}" method="post" class="ui large form">
+                {% endif %}
+                    <div class="ui">
+                        <div class="field">
+                            <label>Structure</label>
+                            <div class="ui left icon input">
+                                <i class="align justify icon"></i>
+                                {{ form_widget(form.structure, {'attr': {'placeholder': 'Structure'}}) }}
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Nom</label>
+                            <div class="ui left icon input">
+                                <i class="align left icon"></i>
+                                {{ form_widget(form.name, {'attr': {'placeholder': 'Nom'}}) }}
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Société</label>
+                            <div class="ui left icon input">
+                                {{ form_widget(form.society, {'attr': {'placeholder': 'Société', 'class': 'ui fluid dropdown', 'multiple': true }}) }}
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Route</label>
+                            <div class="ui left icon input">
+                                <i class="align left icon"></i>
+                                {{ form_widget(form.route, {'attr': {'placeholder': 'Route'}}) }}
+                            </div>
+                            <div class="ui" id="menu_route_check">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui toggle checkbox">
+                                {{ form_widget(form.enable) }}
+                              <label>Accès</label>
+                            </div>
+                        </div>
+                        {% if menu.id is not null %}
+                            <a href="{{ path('menu_delete', {'id': menu.id}) }}">
+                                <div class="ui red submit button">Supprimer</div>
+                            </a>
+                        {% endif %}
+                        <div class="ui primary blue submit button" id="btn-submit-menu">Enregistrer</div>
+                        <div class="ui error message"></div>
+                        {{ form_rest(form) }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('public/js/formValidation/menu.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            {% if menu.id is not null %}
+                $.post({
+                    'url': '{{ path('ajax_society_menu', {'id': menu.id}) }}',
+                    'data': {'menuId': {{ menu.id }}},
+                    success: function(data) {
+                        var societiesSelected = data.split(',');
+                        $("#menu_society").dropdown('set selected', societiesSelected);
+                    }
+                });
+            {% endif %}
+
+            $("#menu_route").keyup(function() {
+
+                var route = $('#menu_route').val();
+                $.post({
+                    'url': '{{ path('ajax_menu_check_route') }}',
+                    'data': {'route': route},
+                    success: function(data) {
+                        if(data.status == 'nok') {
+                            $("#menu_route_check").html('La route ' + last + ' existe déjà');
+                            $("#menu_route").val('');
+                        } else {
+                            $("#menu_route_check").html('');
+                        }
+                    }
+                });
+
+                return false;
+            });
+        });
+    </script>
+{% endblock %}

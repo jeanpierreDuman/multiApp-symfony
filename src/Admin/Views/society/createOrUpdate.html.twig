@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des menus{% endblock %}
+
+{% block titleLook %}Société{% endblock %}
+
+{% block body %}
+    <div class="thirteen wide column">
+        <div class="ui card max-width">
+            <div class="content">
+                <div class="header">
+                    {% if society.id is null %}
+                        Ajouter une société
+                    {% else %}
+                        Modifier une société
+                    {% endif %}
+                    <a href="{{ path('society') }}" class="ui button ui right aligned teal add-element">Retour</a>
+                </div>
+            </div>
+            <div class="content">
+            {% if society.id is null %}
+                <form id="society_form" action="{{ path('society_add') }}" method="post" class="ui large form">
+            {% else %}
+                <form id="society_form" action="{{ path('society_update', {'id': society.id}) }}" method="post" class="ui large form">
+            {% endif %}
+                    <div class="ui">
+                        <div class="field">
+                            <label>Nom</label>
+                            <div class="ui left icon input">
+                                <i class="align left icon"></i>
+                                {{ form_widget(form.name, {'attr': {'placeholder': 'Nom'}}) }}
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui toggle checkbox">
+                                {{ form_widget(form.enable) }}
+                              <label>Accès</label>
+                            </div>
+                        </div>
+                            {{ form_widget(form.logo) }}
+
+                        <div class="ui primary blue submit button">Enregistrer</div>
+                        <div class="ui error message"></div>
+                        {{ form_rest(form) }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('public/js/formValidation/society.js') }}"></script>
+{% endblock %}

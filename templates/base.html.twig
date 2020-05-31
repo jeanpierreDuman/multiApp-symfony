@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" href="{{ asset('public/semantic/semantic.min.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('public/css/index.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('public/css/datatables.bootstrap4.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('public/semantic/semantic.datatable.min.css') }}">
+        {% endblock %}
+    </head>
+    <body>
+        <div class="ui red-background">
+        </div>
+        <div class="ui fixed menu main-menu-nav">
+            <div class="ui container max-width">
+                <a class="item white">
+                    <span class="title-company">
+                        Multi-App
+                    </span>
+                </a>
+                <a class="item white">
+                    <i class="home icon"></i>
+                    <span>Accueil</span>
+                </a>
+                <a class="ui item white">
+                    <i class="users icon"></i>
+                    Mon équipe
+                </a>
+                <div class="right menu">
+                    <a href="{{ path('app_logout') }}" class="ui item white">
+                        <i class="sign out alternate icon"></i>
+                        Se déconnecter
+                    </a>
+                    <span class="ui item white">Mercredi 25 mars 2020</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui one column doubling stackable grid container mt-60">
+            <div class="column">
+                <div class="ui center aligned container">
+                    <h2 class="white">{% block titleLook %}{% endblock %}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui two column doubling stackable grid position-main-ui">
+            <div class="three wide column">
+                <div class="ui vertical menu sticky max-width">
+                    <div class="item">
+                        <div class="ui transparent icon input">
+                            <input type="text" placeholder="Rechercher">
+                            <i class="search icon"></i>
+                        </div>
+                    </div>
+                    {% for key, items in getMenus(app.user) %}
+                        <div class="item">
+                            <div class="header">{{ key }}</div>
+                            <div class="menu">
+                                {% for item in items %}
+                                    <a href="{{ path(item.route) }}" class="item">{{ item.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="item">
+                            <div class="header">Administration</div>
+                            <div class="menu">
+                                <a href="{{ path('menu') }}" class="item">Menu</a>
+                                <a href="{{ path('society') }}" class="item">Société</a>
+                                <a href="{{ path('user') }}" class="item">Utilisateur</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="ui vertical menu sticky max-width">
+                    <div class="item">
+                        <div class="header">Mes informations</div>
+                        <div class="menu">
+                        {% for key, value in getDataUser(app.user) %}
+                            {% if value is not null %}
+                                <span class="item">{{ key }} : {{ value }}</span>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui center aligned container">
+                    <a href="#" class="ui button bg-red-white-c">Completer mon profil</a>
+                </div>
+            </div>
+            {% block body %}{% endblock %}
+            {% block javascripts %}
+                <script src="{{ asset('public/semantic/jquery.js') }}"></script>
+                <script src="{{ asset('public/semantic/semantic.min.js') }}"></script>
+                <script type="text/javascript" src="{{ asset('public/js/jquery.datatable.min.js') }}"></script>
+                <script type="text/javascript" src="{{ asset('public/semantic/semantic.datatable.min.js') }}"></script>
+                <script src="{{ asset('public/js/datatable.js') }}"></script>
+            {% endblock %}
+    </body>
+</html>

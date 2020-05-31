@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail utilisateur{% endblock %}
+
+{% block body %}
+
+<div class="thirteen wide column">
+    <div class="ui card max-width">
+        <div class="content">
+            <div class="header">
+                    Détail utilisateur
+                <a href="{{ path('user') }}" class="ui button ui right aligned teal add-element">Retour</a>
+            </div>
+        </div>
+        <div class="content">
+            <form class="ui large form">
+                <div class="ui">
+                    <div class="field">
+                        <label>Nom complet</label>
+                        <div class="ui left icon input">
+                            <i class="align left icon"></i>
+                            {{ form_widget(form.name, {'attr': {'placeholder': 'Nom complet'}}) }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Société</label>
+                        <div class="ui left icon input">
+                            {{ form_widget(form.society, {'attr': {'placeholder': 'Société', 'class': 'ui fluid dropdown'}}) }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Email</label>
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            {{ form_widget(form.email, {'attr': {'placeholder': 'Email'}}) }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Adresse</label>
+                        <div class="ui left icon input">
+                            <i class="address card outline icon"></i>
+                            {{ form_widget(form.adress, {'attr': {'placeholder': 'Adresse'}}) }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Téléphone</label>
+                        <div class="ui left icon input">
+                            <i class="phone icon"></i>
+                            {{ form_widget(form.phone, {'attr': {'placeholder': 'Téléphone'}}) }}
+                        </div>
+                    </div>
+                    <a href="{{ path('user_delete', {'id': user.id}) }}">
+                        <div class="ui red submit button">Supprimer</div>
+                    </a>
+                    <div class="ui error message"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('public/js/formValidation/register.js') }}"></script>
+{% endblock %}
